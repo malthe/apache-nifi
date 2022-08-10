@@ -24,6 +24,7 @@ import com.nimbusds.jose.util.ResourceRetriever;
 import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.oauth2.sdk.AuthorizationGrant;
+import com.nimbusds.oauth2.sdk.ErrorObject;
 import com.nimbusds.oauth2.sdk.ParseException;
 import com.nimbusds.oauth2.sdk.Scope;
 import com.nimbusds.oauth2.sdk.TokenErrorResponse;
@@ -316,7 +317,8 @@ public class StandardOidcIdentityProvider implements OidcIdentityProvider {
                 return jwtService.generateSignedToken(loginToken);
             } else {
                 final TokenErrorResponse errorResponse = (TokenErrorResponse) response;
-                throw new RuntimeException("An error occurred while invoking the Token endpoint: " + errorResponse.getErrorObject().getDescription());
+                final ErrorObject errorObject = errorResponse.getErrorObject();
+                throw new RuntimeException("An error occurred while invoking the Token endpoint: " + errorObject.getDescription() + " (" + errorObject.getCode() + ")");
             }
         } catch (final ParseException | JOSEException | BadJOSEException e) {
             throw new RuntimeException("Unable to parse the response from the Token request: " + e.getMessage());
