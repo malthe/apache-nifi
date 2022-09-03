@@ -158,6 +158,9 @@ public class FrameworkServerConnectorFactory extends StandardServerConnectorFact
                 trustStoreScanner.setScanInterval(storeScanInterval);
                 getServer().addBean(trustStoreScanner);
             }
+
+            // XXX: Disable TLS session caching as part of troubleshooting HTTP/2 issue.
+            sslContextFactory.setSessionCachingEnabled(false);
         }
 
         return sslContextFactory;
