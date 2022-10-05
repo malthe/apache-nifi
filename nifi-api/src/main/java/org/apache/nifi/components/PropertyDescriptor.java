@@ -199,10 +199,6 @@ public final class PropertyDescriptor implements Comparable<PropertyDescriptor> 
                     .valid(false)
                     .explanation("Property references a Controller Service that does not exist")
                     .build();
-            } else {
-                return new ValidationResult.Builder()
-                    .valid(true)
-                    .build();
             }
         }
 
